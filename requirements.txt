@@ -1,7 +1,16 @@
 # -*- coding: utf-8 -*-
+# coding:utf-8
+#--trusted-host mirrors.aliyun.com --index-url http://mirrors.aliyun.com/pypi/simple/
+#--trusted-host https://repo.huaweicloud.com -i https://repo.huaweicloud.com/repository/pypi/simple
+# --index-url https://pypi.tuna.tsinghua.edu.cn/simple
+--trusted-host https://mirrors.tencent.com -i https://mirrors.tencent.com/pypi/simple
 
+onnx==1.12.0 
+onnxconverter_common==1.13.0
+colorama==0.4.6
+colorlog
 
-numpy >=1.22
+numpy>=1.22
 six
 colorlog
 torch >=1.10,<2.0 # cpu版

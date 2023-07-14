@@ -20,7 +20,7 @@ import torch
 from transformers import BertTokenizerFast
 from torch.utils.data import DataLoader
 
-from utils import IEMapDataset, SpanEvaluator, IEDataset, convert_example, get_relation_type_dict, logger, tqdm, unify_prompt_name
+from uie_pytorch.utils import IEMapDataset, SpanEvaluator, IEDataset, convert_example, get_relation_type_dict, logger, tqdm, unify_prompt_name
 
 
 @torch.no_grad()

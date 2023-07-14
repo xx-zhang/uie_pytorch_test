@@ -21,10 +21,10 @@ import torch
 from torch.utils.data import DataLoader
 from transformers import BertTokenizerFast
 
-from utils import IEDataset, logger, tqdm
-from model import UIE
-from evaluate import evaluate
-from utils import set_seed, SpanEvaluator, EarlyStopping, logging_redirect_tqdm
+from uie_pytorch.utils import IEDataset, logger, tqdm
+from uie_pytorch.model import UIE
+from uie_pytorch.evaluate import evaluate
+from uie_pytorch.utils import set_seed, SpanEvaluator, EarlyStopping, logging_redirect_tqdm
 
 
 def do_train():

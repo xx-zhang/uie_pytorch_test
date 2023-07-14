@@ -13,15 +13,24 @@
 # limitations under the License.
 
 import re
-import numpy as np
 import six
-
-
 import math
 import argparse
 import os.path
 
-from utils import logger, get_bool_ids_greater_than, get_span, get_id_and_prob, cut_chinese_sent, dbc2sbc
+import numpy as np
+import torch
+from transformers import BertTokenizerFast, ErnieMTokenizerFast
+
+from onnxconverter_common import float16
+import onnx
+
+
+from uie_pytorch.utils import logger, get_bool_ids_greater_than, get_span, \
+        get_id_and_prob, cut_chinese_sent, dbc2sbc
+from uie_pytorch.export_model import export_onnx
+from uie_pytorch.model import UIE, UIEM
+from uie_pytorch.convert import check_model, extract_and_convert
 
 
 class ONNXInferBackend(object):
@@ -42,8 +51,7 @@ class ONNXInferBackend(object):
             logger.info(">>> [ONNXInferBackend] Use GPU to inference ...")
             if use_fp16:
                 logger.info(">>> [ONNXInferBackend] Use FP16 to inference ...")
-                from onnxconverter_common import float16
-                import onnx
+
                 fp16_model_file = os.path.join(infer_model_dir,
                                                "fp16_model.onnx")
                 onnx_model = onnx.load_model(float_onnx_file)
@@ -81,7 +89,7 @@ class PyTorchInferBackend:
                  multilingual=False,
                  device='cpu',
                  use_fp16=False):
-        from model import UIE, UIEM
+
         logger.info(">>> [PyTorchInferBackend] Creating Engine ...")
         if multilingual:
             self.model = UIEM.from_pretrained(model_path_prefix)
@@ -101,7 +109,7 @@ class PyTorchInferBackend:
         logger.info(">>> [PyTorchInferBackend] Engine Created ...")
 
     def infer(self, input_dict):
-        import torch
+
         for input_name, input_value in input_dict.items():
             input_value = torch.LongTensor(input_value)
             if self.device == 'gpu':
@@ -153,16 +161,16 @@ class UIEPredictor(object):
         if self._task_path is None:
             self._task_path = self._model.replace('-', '_')+'_pytorch'
             if not os.path.exists(self._task_path):
-                from convert import check_model, extract_and_convert
+                
                 check_model(self._model)
                 extract_and_convert(self._model, self._task_path)
 
         if self._multilingual:
-            from tokenizer import ErnieMTokenizerFast
+
             self._tokenizer = ErnieMTokenizerFast.from_pretrained(
                 self._task_path)
         else:
-            from transformers import BertTokenizerFast
+            
             self._tokenizer = BertTokenizerFast.from_pretrained(
                 self._task_path)
 
@@ -172,8 +180,7 @@ class UIEPredictor(object):
 
         if self._engine == 'onnx':
             if os.path.exists(os.path.join(self._task_path, "pytorch_model.bin")) and not os.path.exists(os.path.join(self._task_path, "inference.onnx")):
-                from export_model import export_onnx
-                from model import UIE, UIEM
+
                 if self._multilingual:
                     model = UIEM.from_pretrained(self._task_path)
                 else:

@@ -98,7 +98,7 @@
   "githubPullRequests.logLevel": "off",
 
   // python django settings 
-  "python.defaultInterpreterPath": "/usr/local/miniconda3/bin/python",
+  "python.defaultInterpreterPath": "/data/workdir/venv3/bin/python",
   "python.analysis.logLevel": "Warning",
   
   // "python.analysis.fixAll": [],
