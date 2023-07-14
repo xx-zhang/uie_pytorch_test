@@ -18,14 +18,13 @@ import math
 import argparse
 import os.path
 
-import numpy as np
-import torch
-from transformers import BertTokenizerFast, ErnieMTokenizerFast
-
 from onnxconverter_common import float16
 import onnx
+import numpy as np
+import torch
+from transformers import BertTokenizerFast
 
-
+from uie_pytorch.tokenizer import ErnieMTokenizerFast
 from uie_pytorch.utils import logger, get_bool_ids_greater_than, get_span, \
         get_id_and_prob, cut_chinese_sent, dbc2sbc
 from uie_pytorch.export_model import export_onnx
