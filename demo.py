@@ -11,7 +11,7 @@ def test1():
 
 def test3():
     schema = ['时间', '攻击者', '被攻击者', '攻击次数', '攻击者地域'] # Define the schema for entity extraction
-    ie = UIEPredictor(model='/data/workdir/models/uie-base', schema=schema, use_fp16=False, )
+    ie = UIEPredictor(model="uie-base", task_path='/data/workdir/models/uie_base_pytorch/', schema=schema, use_fp16=False, )
     pprint(ie("2023年11月11日12点13分 目标192.168.33.1 遭受到归属到新疆的IP:52.22.11.69 攻击20次。")) # Better print results using pprint
 
 test3() 
